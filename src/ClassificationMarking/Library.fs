@@ -24,16 +24,35 @@ module Say =
         | Secret
         | Confidential
         
-    type Classification = Classification of string
+    type USClassification = USClassification of Designator
+    type ForeignClassification = ForeignClassification of string
+    type JointClassification = JointClassification of string 
+        
+    
+    
+    type Classified =
+        | USClassification
+        | ForeignClassification
+        | JointClassification
+        
+    type Classification =
+        | Unclassified
+        | Classified of Classified
+        
+    
+        
     type ControlMarking = ControlMarking of string
     type ClassificationAuthorityBlock =
         | OriginalClassification of string
         | DerivativeClassification of string
+        
+    type BannerLine = BannerLine of string
+    type PortionMark = PortionMark of string
     
-    let BannerLine s =
+    let CreateBannerLine s =
         // Review Enclosure 3 section 5
         "value"
     
-    let PortionMark s =
+    let CreatePortionMark s =
         // Review Enclosure 3 section 6
         "value"
