@@ -42,26 +42,67 @@ module Say =
     
     type JointClassification = JointClassification of string 
         
-    type USClassification = {
-        USDesignator: USDesignator
-    }
     
     type ClassifiedDesignator =
         | USClassification of USDesignator
         | ForeignClassification of (CountryCode * ForeignDesignator)
         | JointClassification
-        
+
+    
+    type SubCompartment = SubCompartment of string
+    
+    type Compartment = {
+        Name: string
+        SubCompartments: SubCompartment list
+    }
+    
+    type HCS = HCS of Compartment list
+    type SI = SI of Compartment list
+    type TK = TK of Compartment list
+    type Unpublished = {
+        Name: string
+        Compartments: Compartment list
+    }
+    
+    type SCIControlSystems = {
+        HCS: HCS option
+        SI: SI option
+        TK: TK option
+        Unpublished: Unpublished list
+    }
+    
+    
+    type USClassification = {
+        Designator: USDesignator
+        SCI: SCIControlSystems option
+        SAP: string option
+        AEA: string option
+        FGI: string option
+        Dissemination: string option
+        OtherDissemination: string option        
+    }
+    
+    type Classified =
+        | US of USClassification
+        | Foreign
+        | Joint
+    
     type Classification =
         | Unclassified
         | Classified of ClassifiedDesignator
         
     
     
-    type SCIControlSystem =
-        | HCS
-        | SI
-        | TK
-        | Unpublished of string
+//    type SCIControlSystem =
+//        | HCS
+//        | SI
+//        | TK
+//        | Unpublished of string
+
+    
+    
+    
+    
     
     type SCI = SCI of string
     type SAP = SAP of string
