@@ -24,72 +24,31 @@ module Say =
     type Tetragraph = Tetragraph of string
     
     
-    type USDesignator =
-        | TopSecret
-        | Secret
-        | Confidential
-        
     
     
-    type CountryCode = CountryCode of string
     
-    type ForeignDesignator =
-        | TopSecret
-        | Secret
-        | Confidential
-        | Restricted
-        | Unclassified
     
-    type JointClassification = JointClassification of string 
-        
+    type NATODesignator =
+        | CosmicTopSecretBohemia
+        | CosmicTopSecret
+        | NatoSecret
+        | NatoConfidential
+        | NatoRestricted
+        | NatoUnclassified
     
-    type ClassifiedDesignator =
-        | USClassification of USDesignator
-        | ForeignClassification of (CountryCode * ForeignDesignator)
-        | JointClassification
+    type NATOClassification = {
+        Designator: NATODesignator
+    }
+    
+    
+    
+    
+    
 
     
-    type SubCompartment = SubCompartment of string
+
     
-    type Compartment = {
-        Name: string
-        SubCompartments: SubCompartment list
-    }
-    
-    type HCS = HCS of Compartment list
-    type SI = SI of Compartment list
-    type TK = TK of Compartment list
-    type Unpublished = {
-        Name: string
-        Compartments: Compartment list
-    }
-    
-    type SCIControlSystems = {
-        HCS: HCS option
-        SI: SI option
-        TK: TK option
-        Unpublished: Unpublished list
-    }
-    
-    
-    type USClassification = {
-        Designator: USDesignator
-        SCI: SCIControlSystems option
-        SAP: string option
-        AEA: string option
-        FGI: string option
-        Dissemination: string option
-        OtherDissemination: string option        
-    }
-    
-    type Classified =
-        | US of USClassification
-        | Foreign
-        | Joint
-    
-    type Classification =
-        | Unclassified
-        | Classified of ClassifiedDesignator
+
         
     
     
@@ -120,7 +79,7 @@ module Say =
         | Dissemination of DisseminationMarking
     
     type Marking = {
-        Classification : Classification
+        Classification : string
         ControllerMarkings : ControlMarking list
     }    
         
@@ -141,29 +100,7 @@ module Say =
         Month: int
         Day: int
     }
-    
-    let usClassificationAsBannerString c =
-        match c with
-        | USDesignator.TopSecret -> "TOP SECRET"
-        | USDesignator.Secret -> "SECRET"
-        | USDesignator.Confidential -> "CONFIDENTIAL"
-        
-    let classifiedDesignatorToBannerString c =
-        match c with
-        | USClassification us -> usClassificationAsBannerString us
-        | ForeignClassification (countryCode, designator) -> "FOREIGN"
-        | JointClassification -> "JOINT"
-        
-    let classificationToBannerString c =
-        match c with
-        | Unclassified -> "UNCLASSIFIED"
-        | Classified classified -> classifiedDesignatorToBannerString classified
-        
-    let usClassificationAsPortionString c =
-        match c with
-        | USDesignator.TopSecret -> "TS"
-        | USDesignator.Secret -> "S"
-        | USDesignator.Confidential -> "C"
+
     
     let DateToString d =
         sprintf "%04i%02i%02i" d.Year d.Month d.Day
@@ -184,7 +121,7 @@ module Say =
     
     let CreateBannerLine s =
         // Review Enclosure 3 section 5
-        sprintf "%s" (classificationToBannerString s)
+        ""
     
     let CreatePortionMark s =
         // Review Enclosure 3 section 6
@@ -198,4 +135,23 @@ module Say =
         // if (RD || FRD) && !NSI, Do not mark with declassification instructions
         "value"
         
+    type ClassificationDto = {
+        Designator: string
+        ControlMarkings: string list
+        Owners: string list
+        ReleasableTo: string list
+        FgiCodes: string list
+        DisplayOnlyCodes: string list
+        ClassifiedOn: string
+        ClassifiedBy: string
+        ClassificationReasons: string list
+        SciControlSystems: string list
+        DerivedFrom: string
+        DowngradeTo: string
+        DowngradeOn: string
+        DeclassifyOn: string
+        AdditionalReason: string
+        Banner: string
+        Portion: string
+    }
     
