@@ -6,6 +6,7 @@
 
     <ItemGroup>
         <Compile Include="Types.fs" />
+        <Compile Include="Operations.fs" />
         <Compile Include="Library.fs" />
     </ItemGroup>
 

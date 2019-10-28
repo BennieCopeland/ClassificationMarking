@@ -1,4 +1,4 @@
-module ClassificationMarking.Types
+namespace ClassificationMarking.Types
 
     module Trigraph =
         type T = Trigraph of string
@@ -7,6 +7,15 @@ module ClassificationMarking.Types
             then Some (Trigraph s)
             else None
         let apply f (Trigraph s) = f s
+        let value s = apply id s
+        
+    module Tetragraph =
+        type T = Tetragraph of string
+        let create (s:string) =
+            if s <> null && s.Length <= 4
+            then Some (Tetragraph s)
+            else None
+        let apply f (Tetragraph s) = f s
         let value s = apply id s
    
     type USDesignator =
@@ -56,10 +65,24 @@ module ClassificationMarking.Types
         OtherDissemination: string option        
     }
     
+    type NatoClassification =
+        | CosmicTopSecret
+        | CosmicTopSecretBohemia
+        | NatoSecret
+        | NatoConfidential
+        | NatoRestricted
+        | NatoUnclassified
+        | CosmicTopSecretAtomal
+        | SecretAtomal
+        | ConfidentialAtomal
+    
+
     type ForeignClassification = {
         Designator: ForeignDesignator
         Country: CountryCode
     }
+    
+    
     
     type JointClassification = {
         Owners: CountryCode list
@@ -68,6 +91,7 @@ module ClassificationMarking.Types
     type Classified =
         | US of USClassification
         | Foreign of ForeignClassification
+        | Nato of NatoClassification
         | Joint of JointClassification
         
     type Unclassified =
