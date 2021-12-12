@@ -1,13 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
         <Compile Include="Types.fs" />
         <Compile Include="Operations.fs" />
         <Compile Include="Library.fs" />
+        <None Include="Scratchpad.fsx" />
+        <Compile Include="NewTypes.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NodaTime" Version="3.0.5" />
     </ItemGroup>
 
 </Project>
